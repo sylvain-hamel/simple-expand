@@ -98,6 +98,7 @@ h5 {
 
 h6 {
   font-size: 16px;
+  font-weight: 600;
 }
 
 p {
@@ -111,23 +112,11 @@ footer p {
 a {
   text-decoration: none;
   color: #007edf;
-  text-shadow: none;
-
-  transition: color 0.5s ease;
-  transition: text-shadow 0.5s ease;
-  -webkit-transition: color 0.5s ease;
-  -webkit-transition: text-shadow 0.5s ease;
-  -moz-transition: color 0.5s ease;
-  -moz-transition: text-shadow 0.5s ease;
-  -o-transition: color 0.5s ease;
-  -o-transition: text-shadow 0.5s ease;
-  -ms-transition: color 0.5s ease;
-  -ms-transition: text-shadow 0.5s ease;
 }
 
 #main_content a:hover {
   color: #0069ba;
-  text-shadow: #0090ff 0px 0px 2px;
+  text-decoration: underline;
 }
 
 footer a:hover {
@@ -261,6 +250,36 @@ img {
   width: 100%;
   max-width: 100%;
 }
+
+
+/*******************************************************************************
+Custom
+*******************************************************************************/
+.demo-frame {
+      /*border: 1px solid #84878A;*/
+      padding: 10px;
+      background-color:#D0E2F5; 
+      width:100%;
+      box-shadow: 0 0 10px rgba(0,0,0,.1);
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;      
+      
+  }
+
+
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+  font-size: 18px;
+  font-weight: normal;
+  color: #757575;
+  text-transform:uppercase;
+}
+
 
 /*******************************************************************************
 Full-Width Styles
@@ -427,5 +446,7 @@ Small Device Styles
     max-width: 480px;
     font-size: 11px;
   }
+  
+
 
 }

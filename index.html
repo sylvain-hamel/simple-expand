@@ -9,6 +9,48 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>Simple-expand</title>
+
+        <style>
+            
+            .content {display:none;}
+            
+            #demo-with-image.expanded .expander {
+                padding-left: 13px;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(images/expanded.gif);
+            }
+        
+            #demo-with-image.collapsed .expander {
+                padding-left: 13px;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(images/collapsed.gif);
+            }        
+
+
+            #demo3.expanded .expander {
+                font-weight:bold;
+                font-size:125%;
+            }
+                
+            #demo3.expanded .content {
+                display:inherit;
+            }
+        
+            #demo3.collapsed .content {
+                display:none;
+            }
+            
+            #demo-nesting-sub1 {
+                margin-left: 20px;
+            }
+            
+            #demo-nesting-sub2 {
+                margin-left: 40px;
+            }            
+        
+        </style>
   </head>
 
   <body>
@@ -31,7 +73,208 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>test</p>
+
+
+
+        <h1>
+        How it works?
+        <small>All you need is:</small>
+        </h1>
+        
+        <h3>The markup:</h3>
+        <PRE class=code>&lt;<SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">id</SPAN><SPAN style="COLOR: blue">="#container"&gt;
+    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
+    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;</SPAN>
+        content to hide.
+    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+&lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;</SPAN></PRE>
+        <br />
+        <ul>
+            <li>A container element on which you run the plugin.</li>
+            <li>An element with class "expander"; Clicking this element expands/colapses the content.</li>
+            <li>An element with class "content". This is the content to expand/colapse.</li>
+        </ul>
+        <h3>The javascript:</h3>
+        <pre style="font-family:Consolas;font-size:13;color:black;background:white;">$(<span style="color:maroon;">&#39;#container&#39;</span>).simpleexpand();</pre>
+        <p>This will enable the plug-in on the given element(s). From this point forward, you can click the expander to expand/collapse the content.</p>
+
+
+        <h3>
+        You might also consider:
+        </h3>
+        <p>Adding a css class to hide all content elements while the document is loading to prevent blinking when the plug-in kicks in.</p>
+        <pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:maroon;">.content</span>&nbsp;{<span style="color:red;">display</span>:<span style="color:blue;">none</span>;}</pre>
+
+        <h3>
+        Note that:
+        </h3>
+        <p>You can use any type of element you want as the expander or as the content.</p>
+        
+        <h1>
+        Demos
+        </h1>
+
+        <!-- ********************************************
+        demo-simplest
+        ******************************************** -->
+        <h6 id="demo-simplest-top">1. This is the simplest version</h6>
+        <div class="demo-frame">
+            <div id="demo-simplest">
+                <a class="expander" href="#demo-simplest-top">click me</a>
+                <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            
+                    <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                    blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+            
+                    <p>neque, in rutrum diam congue in. Pellentesque habitant morbi <br/>
+                    tristique senectus et netus et malesuada fames ac turpis egestas.  <br/>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta <br/>
+                    porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac <br/>
+                    interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  <br/>
+                    rutrum diam congue in. Pellentesque habitant morbi tristique senectus <br/>
+                    et netus et malesuada fames ac turpis egestas. <p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ********************************************
+        demo-with-image
+        ******************************************** -->
+        <h6 id="demo-with-image-top">2. You can also add an image beside the expander</h6>
+
+        <div class="demo-frame">
+            <div id="demo-with-image">
+                <a class="expander" href="#demo-with-image-top">click me</a>
+                <ul class="content">
+                    <li>and</li>
+                    <li>anything you</li>
+                    <li>like as the content. </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-code">
+            <p>All you need is the css classes to set an image on the expander element for the expanded and collapsed states. <a class="expander" href="#demo-nesting-top">Show css</a>
+            </p>
+            
+            
+            <div class="content">
+<PRE class=code><SPAN style="COLOR: maroon">#container.expanded .expander </SPAN>{
+    <SPAN style="COLOR: red">padding-left</SPAN>: <SPAN style="COLOR: blue">13px</SPAN>;
+    <SPAN style="COLOR: red">background-position</SPAN>: <SPAN style="COLOR: blue">left center</SPAN>;
+    <SPAN style="COLOR: red">background-repeat</SPAN>: <SPAN style="COLOR: blue">no-repeat</SPAN>;
+    <SPAN style="COLOR: red">background-image</SPAN>: <SPAN style="COLOR: blue">url(images/expanded.gif)</SPAN>;
+}
+
+<SPAN style="COLOR: maroon">#container.collapsed .expander </SPAN>{
+    <SPAN style="COLOR: red">padding-left</SPAN>: <SPAN style="COLOR: blue">13px</SPAN>;
+    <SPAN style="COLOR: red">background-position</SPAN>: <SPAN style="COLOR: blue">left center</SPAN>;
+    <SPAN style="COLOR: red">background-repeat</SPAN>: <SPAN style="COLOR: blue">no-repeat</SPAN>;
+    <SPAN style="COLOR: red">background-image</SPAN>: <SPAN style="COLOR: blue">url(images/collapsed.gif)</SPAN>;
+}
+</PRE>
+            </div>
+
+        </div>
+        
+
+
+        <!-- ********************************************
+        demo-nesting
+        ******************************************** -->
+        <h6 id="demo-nesting-top">3. You can nest containers </h6>
+        <div class="demo-frame">
+            <div id="demo-nesting">
+                <a class="expander" href="#demo-nesting-top">click me</a>
+                <div class="content">
+                    <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                    blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p>
+    
+                    <div id="demo-nesting-sub1">    
+                        <a class="expander" href="#demo-nesting-top">click me</a>
+                        <div class="content">
+                            <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                            blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+
+                            <div id="demo-nesting-sub2">    
+                                <a class="expander" href="#demo-nesting-top">click me</a>
+                                <div class="content">
+                                    <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                                    blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>  
+
+        <div class="demo-code">
+            <p>There really is nothing special to do. Nesting works naturally. <a class="expander" href="#">Show code</a>
+            </p>
+
+            <div class="content">
+            <h6>Html</h6>
+<PRE class=code><SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;
+    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
+    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
+        &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;
+    
+        &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;    
+            &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
+            &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
+                &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt; 
+
+                &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;    
+                    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
+                    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
+                        &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt; 
+                    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+                &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+
+            &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+
+        &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+&lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;  
+</SPAN></PRE>
+
+            <h6>Javascript</h6>
+            <PRE class=code>$(<SPAN style="COLOR: maroon">'.expand-container'</SPAN>).simpleexpand();</PRE>
+
+            </div>
+
+        </div>  
+
+        <!-- ********************************************
+        demo-nesting
+        ******************************************** -->
+        <h6 id="demo-expander-deep-top">4. The expander can be nested deep inside other elements</h6>
+        <div class="demo-frame">
+            <div id="demo-expander-deep">
+                <ul>
+                    <li>item 1</li>
+                    <li>item 1</li>
+                    <li><a class="expander" href="#demo-nesting-top">click me</a></li>
+                    <li>item 1</li>
+                    <li>item 1</li>                    
+                </ul>
+                
+                <div class="content">
+                    <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                    blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p>    
+                </div>
+            </div>  
+        </div>
+        
+
+
+
       </section>
     </div>
 
@@ -43,7 +286,35 @@
       </footer>
     </div>
 
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/redhotsly/simple-expand/master/src/simple-expand.js"></script>
     
+    <script type="text/javascript">
+        $(function () {
+            $('#demo-simplest').simpleexpand();
+            $('#demo-with-image').simpleexpand();
+            $('#demo3').simpleexpand({ hideMode: "" });
+            $('#demo4').simpleexpand();
+            $('#demo-nesting').simpleexpand();
+            $('#demo-nesting-sub1').simpleexpand();
+            $('#demo-nesting-sub2').simpleexpand();
+            $('#demo-expander-deep').simpleexpand();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.demo-code').simpleexpand();
+        });
+    </script>
+
+
+
 
   </body>
+
+
+
+  
 </html>
