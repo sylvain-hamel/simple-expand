@@ -80,10 +80,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 if (settings.hideMode === "fadeToggle") {
                     contents.fadeToggle(150);
                 }
+
+                // prevent default to stop browser from scrolling to: href="#"
+                return false;
+
             });
         });
         return this;
     };
-}());
+} ());
 
 
