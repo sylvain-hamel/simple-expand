@@ -27,44 +27,63 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ===============================================================
 */
-$.fn.simpleexpand = function(fadeToggle) {
+(function () {
 
-    var findLevelOneDeep = function(parent, filterSelector, stopAtSelector){
-        return parent.find(filterSelector).filter(function(){
-            return !$(this).parentsUntil(parent, stopAtSelector).length;
-        })    
-    }
-    
-    if ( fadeToggle === undefined){
-        fadeToggle = true;
-    }
-    
-    this.each(function() {
-        var that = $(this);
-        
-        // Find all "content" elements, but only at one level deep 
-        // (don't return content under matched content, they belong to an inner container).
-        var contents = findLevelOneDeep(that, ".content", ".content");
-        if ( fadeToggle ) {
-            contents.hide();
-        }
-        that.removeClass("expanded").addClass("collapsed");        
-       
-        // Find all "expander" elements, but only at one level deep 
-        // (don't return expander under another content, they belong to an inner container).
-        var expanders = findLevelOneDeep(that, ".expander", ".content");
-        expanders.click(function(){
-            if ( that.hasClass("expanded") ){
-                that.toggleClass("collapsed expanded");
+    "use strict";
+    $.fn.simpleexpand = function (options) {
+
+        var settings = $.extend({
+
+            // hideMode
+            // -----------
+            // Specifies method to hide the content element. 
+            // Default: fadeToggle.
+            //
+            // Values:
+            // - fadeToggle: Use jquery.fadeToggle()
+            // - css       : relies on user provided css to show/hide. you can defines classes for "collapsed" and "expanded" classes.
+            //  
+            // If un an unknown value is specified, the plug-in reverts to "css".
+            'hideMode': 'fadeToggle'
+
+
+        }, options);
+
+
+        // See this question to better understand what this does. http://stackoverflow.com/questions/10902077/how-to-select-children-elements-but-only-one-level-deep-with-jquery
+        var findLevelOneDeep = function (parent, filterSelector, stopAtSelector) {
+            return parent.find(filterSelector).filter(function () {
+                return !$(this).parentsUntil(parent, stopAtSelector).length;
+            });
+        };
+
+        this.each(function () {
+            var that = $(this);
+
+            // Find all "content" elements to affect. Don't dig into sub .content elements
+            var contents = findLevelOneDeep(that, ".content", ".content");
+
+            if (settings.hideMode === "fadeToggle") {
+                contents.hide();
             }
-            else
-            {
-                that.toggleClass("expanded collapsed");
-            }
-            if (fadeToggle){
-                contents.fadeToggle(150);            
-            }
+            that.removeClass("expanded").addClass("collapsed");
+
+            // Find all "expander" elements to affect. Don't dig into sub .content elements.
+            var expanders = findLevelOneDeep(that, ".expander", ".content");
+            expanders.click(function () {
+                if (that.hasClass("expanded")) {
+                    that.toggleClass("collapsed expanded");
+                }
+                else {
+                    that.toggleClass("expanded collapsed");
+                }
+                if (settings.hideMode === "fadeToggle") {
+                    contents.fadeToggle(150);
+                }
+            });
         });
-    });
-    return this;
-};
+        return this;
+    };
+}());
+
+

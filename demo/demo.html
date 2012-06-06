@@ -1,82 +1,99 @@
 <html>
     <head>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="../src/simple-expand.js"></script>
-    
-    <script>
-    $(function(){
-        $('#category1').simpleexpand();   
-        $('#category2').simpleexpand();   
-        $('#category3').simpleexpand(false);   
-        $('#category4').simpleexpand();   
-        $('#category5').simpleexpand();   
-        $('#category5sub1').simpleexpand();   
-    });
-    </script>   
 
+        <title>simple-expand</title>
+    
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../src/simple-expand.js"></script>
+    
+        <script type="text/javascript">
+            $(function () {
+                $('#demo1').simpleexpand();   
+                $('#demo2').simpleexpand();   
+                $('#demo3').simpleexpand({hideMode:""});
+                $('#demo4').simpleexpand();   
+                $('#demo5').simpleexpand();
+                $('#demo5sub1').simpleexpand();
+                $('#demo6').simpleexpand();   
+            });
+        </script>   
 
         <style>
-        #category2.expanded .expander
-        {
-            padding-left: 13px;
-            background-position: left center;
-            background-repeat: no-repeat;
-            background-image: url(expanded.gif);
-        }
+            
+            .content {display:none;}
+            
+            #demo2.expanded .expander {
+                padding-left: 13px;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(expanded.gif);
+            }
         
-        #category2.collapsed .expander
-        {
-            padding-left: 13px;
-            background-position: left center;
-            background-repeat: no-repeat;
-            background-image: url(collapsed.gif);
-        }        
+            #demo2.collapsed .expander {
+                padding-left: 13px;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(collapsed.gif);
+            }        
 
 
-        #category3.expanded .expander
-        {
-            font-weight:bold;
-            font-size:125%;
-        }
+            #demo3.expanded .expander {
+                font-weight:bold;
+                font-size:125%;
+            }
                 
-        #category3.expanded .content
-        {
-            display:inherit;
-        }
+            #demo3.expanded .content {
+                display:inherit;
+            }
         
-        #category3.collapsed .content
-        {
-            display:none;
-        }
+            #demo3.collapsed .content {
+                display:none;
+            }
         
                 
-        #category4 .content
-        {
-            margin-left:45px;;
-        }
+            #demo4 .content {
+                margin-left:45px;
+            }
+            
+            
+            #demo5sub1 {
+                margin-left: 20px;
+            }
         
         </style>
     
     </head>
     <body>
     
-    <h1>Usage</h1>
-    <pre>
-        $('#container').simpleexpand();   
-    </pre>
+    <h1>simple-expand.js</h1>
+    <p>simple jQuery plug-in to expand/colapse elements</p>
     <h2>
     You need:
     </h2>
+    <PRE class=code>    
+    &lt;<SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">id</SPAN><SPAN style="COLOR: blue">="#container"&gt;
+        &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
+        &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;</SPAN>
+            to hide this content.
+        &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
+    </SPAN></PRE>
+
+    <ol>
+        <li>A container element on which you run the plugin.</li>
+        <li>An element with class "expander"; Clicking this element expands/colapses the content.</li>
+        <li>An element with class "content". This is the content to expand/colapse.</li>
+    </ol>
+    <h2>
+    Recommended:
+    </h2>
     <ul>
-        <li>a container element on which you run the plugin.</li>
-        <li>an element with class "expander"; cliking this expands/colapses the content.</li>
-        <li>an element with class "content". this is the content to expand/colapse.</li>
+        <li>A css class like this to ensure all content looks collapsed while the document is being loaded. <pre><code>.content {display:none;}</code></pre> </li>
     </ul>
 
     <h1>Demos</h1>
     <h2>Demo 1</h2>
-    <div id="category1">
+    <div id="demo1">
         <a class="expander" href="#">This is the simplest version</a>
         <div class="content">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -84,19 +101,18 @@
             <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
             blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
             
-            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi </br>
-            tristique senectus et netus et malesuada fames ac turpis egestas.  </br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta </br>
-            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac </br>
-            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  </br>
-            rutrum diam congue in. Pellentesque habitant morbi tristique senectus </br>
+            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi <br/>
+            tristique senectus et netus et malesuada fames ac turpis egestas.  <br/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta <br/>
+            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac <br/>
+            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  <br/>
+            rutrum diam congue in. Pellentesque habitant morbi tristique senectus <br/>
             et netus et malesuada fames ac turpis egestas. <p>
         </div>
     </div>
     
-
     <h2>Demo 2</h2>
-    <div id="category2">
+    <div id="demo2">
         <a class="expander" href="#">You can use an image with the toggle</a>
         <ul class="content">
             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
@@ -108,7 +124,7 @@
     </div>
         
     <h2>Demo 3</h2>
-    <div id="category3">
+    <div id="demo3">
         <a class="expander" href="#">You can use css classes named 'expanded' and 'collapsed' instead of the default fadeToggle.</a>
         <div class="content">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -116,19 +132,19 @@
             <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
             blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
             
-            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi </br>
-            tristique senectus et netus et malesuada fames ac turpis egestas.  </br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta </br>
-            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac </br>
-            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  </br>
-            rutrum diam congue in. Pellentesque habitant morbi tristique senectus </br>
+            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi <br/>
+            tristique senectus et netus et malesuada fames ac turpis egestas.  <br/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta <br/>
+            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac <br/>
+            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  <br/>
+            rutrum diam congue in. Pellentesque habitant morbi tristique senectus <br/>
             et netus et malesuada fames ac turpis egestas. <p>
         </div>
     </div>
     
     <h2>Demo 4</h2>
-    <div id="category4">
-        <p class="expander" href="#">
+    <div id="demo4">
+        <p class="expander">
             The expander or the<br/>
             content can be any thing (click here).
         </p>
@@ -150,23 +166,23 @@
             <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
             blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
             
-            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi </br>
-            tristique senectus et netus et malesuada fames ac turpis egestas.  </br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta </br>
-            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac </br>
-            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  </br>
-            rutrum diam congue in. Pellentesque habitant morbi tristique senectus </br>
+            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi <br/>
+            tristique senectus et netus et malesuada fames ac turpis egestas.  <br/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta <br/>
+            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac <br/>
+            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  <br/>
+            rutrum diam congue in. Pellentesque habitant morbi tristique senectus <br/>
             et netus et malesuada fames ac turpis egestas. <p>
         </div>
     </div>
     
     <h2>Demo 5</h2>
-    <div id="category5">
+    <div id="demo5">
         <a class="expander" href="#">Nesting works correctly</a>
         <div class="content">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     
-            <div id="category5sub1">    
+            <div id="demo5sub1">    
                 <a class="expander" href="#">Nested item</a>
                 <div class="content">
                     <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
@@ -176,7 +192,29 @@
             
         </div>
     </div>    
-        
+
+
+<!-- multiple expanders don't work yet
+    <h2>Demo 6</h2>
+    <div id="demo6">
+        <a class="expander" href="#">You can have multiple expanders (expand this one to see the bottom one)</a>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            
+            <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+            blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+            
+            <p>neque, in rutrum diam congue in. Pellentesque habitant morbi <br/>
+            tristique senectus et netus et malesuada fames ac turpis egestas.  <br/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta <br/>
+            porttitor tellus sit amet cursus. Morbi nulla odio, blandit ac <br/>
+            interdum at, consectetur eget purus. Ut cursus rhoncus neque, in  <br/>
+            rutrum diam congue in. Pellentesque habitant morbi tristique senectus <br/>
+            et netus et malesuada fames ac turpis egestas. <p>
+            <a class="expander" href="#">Close</a>    
+        </div>        
+    </div>   
+-->            
     </body>
 </html>
 
