@@ -36,54 +36,145 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
             // hideMode
             // -----------
-            // Specifies method to hide the content element. 
-            // Default: fadeToggle.
+            // Specifies method to hide the content element.
+            // Default: fadeToggle
             //
             // Values:
             // - fadeToggle: Use jquery.fadeToggle()
-            // - css       : relies on user provided css to show/hide. you can defines classes for "collapsed" and "expanded" classes.
-            //  
+            // - basic: Use jquery.toggle()
+            // - css: relies on user provided css to show/hide. you can defines classes for "collapsed" and "expanded" classes.
+            //
             // If un an unknown value is specified, the plug-in reverts to "css".
-            'hideMode': 'fadeToggle'
+            'hideMode': 'fadeToggle',
 
+            // searchMode
+            // -----------
+            // Specifies the defaut value for  data-expander-target-search when none is specified on the expander element
+            // Default: parent
+            //
+            // Values:
+            // - parent: go up the expander's parents hierarchy searching each parent's childens lookin for a target
+            // - absolute : finds a target globally in the document (useful when matching an id)
+            // - relative : finds a target nested inside the expander
+            //
+            // If un an unknown value is specified, no targets will be found.
+            'defaultSearchMode': 'parent',
+
+            // defaultTarget
+            // -----------
+            // Specifies the defaut value for data-expander-target when none is specified on the expander element
+            // Default: .content
+            'defaultTarget': '.content',
+
+            // onerror
+            // -----------
+            // Specifies whether the plug-in throws an exception if it cannot find a target for the expander 
+            // Default: true
+            'throwOnMissingTarget': true
 
         }, options);
 
 
-        // See this question to better understand what this does. http://stackoverflow.com/questions/10902077/how-to-select-children-elements-but-only-one-level-deep-with-jquery
+        // Search in the children of the 'parent' element for an element that matches 'filterSelector'
+        // but don't search deeper if a 'stopAtSelector' element is met.
+        //     See this question to better understand what this does.
+        //     http://stackoverflow.com/questions/10902077/how-to-select-children-elements-but-only-one-level-deep-with-jquery
         var findLevelOneDeep = function (parent, filterSelector, stopAtSelector) {
             return parent.find(filterSelector).filter(function () {
                 return !$(this).parentsUntil(parent, stopAtSelector).length;
             });
         };
 
-        this.each(function () {
-            var that = $(this);
 
-            // Find all "content" elements to affect. Don't dig into sub .content elements
-            var contents = findLevelOneDeep(that, ".content", ".content");
+        // Hides targets
+        var hideTargets = function (targets) {
 
             if (settings.hideMode === "fadeToggle") {
-                contents.hide();
+                targets.hide();
+            } else if (settings.hideMode === "basic") {
+                targets.hide();
             }
-            that.removeClass("expanded").addClass("collapsed");
 
-            // Find all "expander" elements to affect. Don't dig into sub .content elements.
-            var expanders = findLevelOneDeep(that, ".expander", ".content");
-            expanders.click(function () {
-                if (that.hasClass("expanded")) {
-                    that.toggleClass("collapsed expanded");
-                }
-                else {
-                    that.toggleClass("expanded collapsed");
-                }
-                if (settings.hideMode === "fadeToggle") {
-                    contents.fadeToggle(150);
-                }
+        };
 
-                // prevent default to stop browser from scrolling to: href="#"
-                return false;
+        // Toggles the targets and sets the 'collapsed' or 'expanded'
+        // class on the expander
+        var toggle = function (expander, targets) {
+            if (expander.hasClass("expanded")) {
+                expander.toggleClass("collapsed expanded");
+            }
+            else {
+                expander.toggleClass("expanded collapsed");
+            }
 
+            if (settings.hideMode === "fadeToggle") {
+                targets.fadeToggle(150);
+            } else if (settings.hideMode === "basic") {
+                targets.toggle();
+            }
+
+            // prevent default to stop browser from scrolling to: href="#"
+            return false;
+        };
+
+        // returns the targets for the given expander
+        var findTargets = function (expander, searchMode, targetSelector) {
+            // find the targets using the specified searchMode
+            var targets = [];
+            if (searchMode === "absolute") {
+                targets = $(targetSelector);
+            }
+            else if (searchMode === "relative") {
+                targets = findLevelOneDeep(expander, targetSelector, targetSelector);
+            }
+            else if (searchMode === "parent") {
+
+                // Search the expander's parents recursively until targets are found.
+                var parent = expander.parent();
+                do {
+                    targets = findLevelOneDeep(parent, targetSelector, targetSelector);
+
+                    // No targets found, prepare for next iteration...
+                    if (targets.length === 0) {
+                        parent = parent.parent();
+                    }
+                } while (targets.length === 0 && parent.length !== 0);
+            }
+            return targets;
+        }
+
+        // Plug-in entry point
+        //
+        // For each expander:
+        //    search targets
+        //    hide targets
+        //    register to targets' click event to toggle them on click
+        this.each(function () {
+            var expander = $(this);
+
+            var targetSelector = expander.attr("data-expander-target") || settings.defaultTarget;
+            var searchMode = expander.attr("data-expander-target-search") || settings.defaultSearchMode;
+
+            var targets = findTargets(expander, searchMode, targetSelector);
+
+            // no elements match the target selector
+            // there is nothing we can do
+            if (targets.length === 0) {
+                if (settings.throwOnMissingTarget) {
+                    throw "simple-expand: Targets not found";
+                }
+                return this;
+            }
+
+            // set initial style
+            expander.removeClass("expanded").addClass("collapsed");
+
+            // start with all targets hidden
+            hideTargets(targets);
+
+            // hook the click on the expander
+            expander.click(function () {
+                return toggle(expander, targets);
             });
         });
         return this;
