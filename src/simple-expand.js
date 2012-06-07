@@ -28,11 +28,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ===============================================================
 */
 (function () {
-
     "use strict";
-    $.fn.simpleexpand = function (options) {
 
-        var settings = $.extend({
+    function PlugIn() {
+
+        var that = this;
+
+        var defaults = {
 
             // hideMode
             // -----------
@@ -71,8 +73,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             // Specifies whether the plug-in throws an exception if it cannot find a target for the expander 
             // Default: true
             'throwOnMissingTarget': true
+        };
 
-        }, options);
+        var settings = {};
+        $.extend(settings, defaults);
 
 
         // Search in the children of the 'parent' element for an element that matches 'filterSelector'
@@ -141,44 +145,62 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 } while (targets.length === 0 && parent.length !== 0);
             }
             return targets;
+        };
+
+        var activate = function (jquery, options) {
+            $.extend(settings, options);
+
+            // Plug-in entry point
+            //
+            // For each expander:
+            //    search targets
+            //    hide targets
+            //    register to targets' click event to toggle them on click
+            jquery.each(function () {
+                var expander = $(this);
+
+                var targetSelector = expander.attr("data-expander-target") || settings.defaultTarget;
+                var searchMode = expander.attr("data-expander-target-search") || settings.defaultSearchMode;
+
+                var targets = findTargets(expander, searchMode, targetSelector);
+
+                // no elements match the target selector
+                // there is nothing we can do
+                if (targets.length === 0) {
+                    if (settings.throwOnMissingTarget) {
+                        throw "simple-expand: Targets not found";
+                    }
+                    return this;
+                }
+
+                // set initial style
+                expander.removeClass("expanded").addClass("collapsed");
+
+                // start with all targets hidden
+                hideTargets(targets);
+
+                // hook the click on the expander
+                expander.click(function () {
+                    return toggle(expander, targets);
+                });
+            });
+        };
+
+        return {
+            activate: activate
         }
 
-        // Plug-in entry point
-        //
-        // For each expander:
-        //    search targets
-        //    hide targets
-        //    register to targets' click event to toggle them on click
-        this.each(function () {
-            var expander = $(this);
+    }
 
-            var targetSelector = expander.attr("data-expander-target") || settings.defaultTarget;
-            var searchMode = expander.attr("data-expander-target-search") || settings.defaultSearchMode;
+    var instance = new PlugIn();
 
-            var targets = findTargets(expander, searchMode, targetSelector);
-
-            // no elements match the target selector
-            // there is nothing we can do
-            if (targets.length === 0) {
-                if (settings.throwOnMissingTarget) {
-                    throw "simple-expand: Targets not found";
-                }
-                return this;
-            }
-
-            // set initial style
-            expander.removeClass("expanded").addClass("collapsed");
-
-            // start with all targets hidden
-            hideTargets(targets);
-
-            // hook the click on the expander
-            expander.click(function () {
-                return toggle(expander, targets);
-            });
-        });
+    $.fn.simpleexpand = function (options) {
+        instance.activate(this, options);
         return this;
     };
-} ());
 
+    // expose plugin publicly for unit testing
+    $.fn.simpleexpand.fn = instance;
+
+} ());
 
