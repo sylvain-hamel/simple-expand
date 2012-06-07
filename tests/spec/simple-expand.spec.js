@@ -66,25 +66,46 @@ describe("toggling works (no matter the searchMode)", function () {
 // Requires html fixture: parent.html
 describe("searchMode: parent", function () {
 
-    describe("when expander is sibling of content", function () {
+    var matchedtargets;
 
-        beforeEach(function () {
-            loadFixtures("parent mode.html");
-            $("#expander1").simpleexpand(no_animation);
+    beforeEach(function () {
+        loadFixtures("parent mode.html");
+
+        var base = $.fn.simpleexpand.fn.findTargets;
+        spyOn($.fn.simpleexpand.fn, 'findTargets').andCallFake(function (a, b, c) {
+
+            matchedtargets = base(a, b, c);
+            return matchedtargets;
         });
-
-        it("is collapsed by default", function () {
-            expect($('#content1')).toExist();
-            expect($('#content1')).not.toBeVisible();
-        });
-
-    });
-
-
-    describe("when expander is lower in parent", function () {
-
         
     });
+
+    describe("when expander is sibling of content", function () {
+
+        it("content is found", function () {
+            $("#when-expander-is-sibling-of-content #expander1").simpleexpand(no_animation);
+            expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
+            expect(matchedtargets).toBe('#content1');
+        });
+
+    });
+
+    describe("when expander is lower in parent", function () {
+        it("content is found", function () {
+            $("#when-expander-is-lower-in-parent #expander1").simpleexpand(no_animation);
+            expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
+            expect(matchedtargets).toBe('#content1');
+        });
+    });
+
+    describe("when expander is several parents higher", function () {
+        it("content is found", function () {
+            $("#when-expander-is-several-parents-higher #expander1").simpleexpand(no_animation);
+            expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
+            expect(matchedtargets).toBe('#content1');
+        });
+    });
+
 });
 
 

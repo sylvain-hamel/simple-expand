@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         var that = this;
 
-        var defaults = {
+        that.defaults = {
 
             // hideMode
             // -----------
@@ -75,15 +75,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             'throwOnMissingTarget': true
         };
 
-        var settings = {};
-        $.extend(settings, defaults);
+        that.settings = {};
+        $.extend(that.settings, that.defaults);
 
 
         // Search in the children of the 'parent' element for an element that matches 'filterSelector'
         // but don't search deeper if a 'stopAtSelector' element is met.
         //     See this question to better understand what this does.
         //     http://stackoverflow.com/questions/10902077/how-to-select-children-elements-but-only-one-level-deep-with-jquery
-        var findLevelOneDeep = function (parent, filterSelector, stopAtSelector) {
+        that.findLevelOneDeep = function (parent, filterSelector, stopAtSelector) {
             return parent.find(filterSelector).filter(function () {
                 return !$(this).parentsUntil(parent, stopAtSelector).length;
             });
@@ -91,11 +91,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
         // Hides targets
-        var hideTargets = function (targets) {
+        that.hideTargets = function (targets) {
 
-            if (settings.hideMode === "fadeToggle") {
+            if (that.settings.hideMode === "fadeToggle") {
                 targets.hide();
-            } else if (settings.hideMode === "basic") {
+            } else if (that.settings.hideMode === "basic") {
                 targets.hide();
             }
 
@@ -103,7 +103,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         // Toggles the targets and sets the 'collapsed' or 'expanded'
         // class on the expander
-        var toggle = function (expander, targets) {
+        that.toggle = function (expander, targets) {
             if (expander.hasClass("expanded")) {
                 expander.toggleClass("collapsed expanded");
             }
@@ -111,9 +111,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 expander.toggleClass("expanded collapsed");
             }
 
-            if (settings.hideMode === "fadeToggle") {
+            if (that.settings.hideMode === "fadeToggle") {
                 targets.fadeToggle(150);
-            } else if (settings.hideMode === "basic") {
+            } else if (that.settings.hideMode === "basic") {
                 targets.toggle();
             }
 
@@ -122,21 +122,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
 
         // returns the targets for the given expander
-        var findTargets = function (expander, searchMode, targetSelector) {
+        that.findTargets = function (expander, searchMode, targetSelector) {
             // find the targets using the specified searchMode
             var targets = [];
             if (searchMode === "absolute") {
                 targets = $(targetSelector);
             }
             else if (searchMode === "relative") {
-                targets = findLevelOneDeep(expander, targetSelector, targetSelector);
+                targets = that.findLevelOneDeep(expander, targetSelector, targetSelector);
             }
             else if (searchMode === "parent") {
 
                 // Search the expander's parents recursively until targets are found.
                 var parent = expander.parent();
                 do {
-                    targets = findLevelOneDeep(parent, targetSelector, targetSelector);
+                    targets = that.findLevelOneDeep(parent, targetSelector, targetSelector);
 
                     // No targets found, prepare for next iteration...
                     if (targets.length === 0) {
@@ -147,8 +147,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             return targets;
         };
 
-        var activate = function (jquery, options) {
-            $.extend(settings, options);
+        that.activate = function (jquery, options) {
+            $.extend(that.settings, options);
 
             // Plug-in entry point
             //
@@ -159,15 +159,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             jquery.each(function () {
                 var expander = $(this);
 
-                var targetSelector = expander.attr("data-expander-target") || settings.defaultTarget;
-                var searchMode = expander.attr("data-expander-target-search") || settings.defaultSearchMode;
+                var targetSelector = expander.attr("data-expander-target") || that.settings.defaultTarget;
+                var searchMode = expander.attr("data-expander-target-search") || that.settings.defaultSearchMode;
 
-                var targets = findTargets(expander, searchMode, targetSelector);
+                var targets = that.findTargets(expander, searchMode, targetSelector);
 
                 // no elements match the target selector
                 // there is nothing we can do
                 if (targets.length === 0) {
-                    if (settings.throwOnMissingTarget) {
+                    if (that.settings.throwOnMissingTarget) {
                         throw "simple-expand: Targets not found";
                     }
                     return this;
@@ -177,19 +177,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 expander.removeClass("expanded").addClass("collapsed");
 
                 // start with all targets hidden
-                hideTargets(targets);
+                that.hideTargets(targets);
 
                 // hook the click on the expander
                 expander.click(function () {
-                    return toggle(expander, targets);
+                    return that.toggle(expander, targets);
                 });
             });
         };
-
-        return {
-            activate: activate
-        }
-
     }
 
     var instance = new PlugIn();
@@ -203,4 +198,3 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     $.fn.simpleexpand.fn = instance;
 
 } ());
-

@@ -3,21 +3,32 @@
         <title>test fixture</title>
     </head>
     <body>
-        <div>
-        when expander is sibling of content
+
+        <div id = "when-expander-is-sibling-of-content">
             <div id="expander1">expander</div>
             <div id="content1" class="content">content</div>
         </div>
 
-        <div>
-        when expander is lower in parent
-            <div id="expander2">expander</div>
+        <div id="when-expander-is-lower-in-parent">
+            <div id="expander1">expander</div>
             <div>
                 <div>
-                    <div id="content2" class="content">content</div>
+                    <div id="content1" class="content">content</div>
                 </div>
             </div>
         </div>
 
+        <div id ="when-expander-is-several-parents-higher">
+            <div>
+                <div>
+                    <div id="expander1">expander</div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div id="content1" class="content">content</div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
