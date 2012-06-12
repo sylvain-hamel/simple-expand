@@ -3,32 +3,53 @@
         <title>test fixture</title>
     </head>
     <body>
+        <div class="invalid1 content">content</div>
 
-        <div id = "when-expander-is-sibling-of-content">
-            <div id="expander1">expander</div>
-            <div id="content1" class="content">content</div>
+        <div id = "when-expander-is-sibling-of-target">
+            <div class="parent">
+                <div class="expander1">expander</div>
+                <div id="1000" class="content">content</div>
+            </div>
+            <div class="invalid1 content">content</div>
         </div>
 
         <div id="when-expander-is-lower-in-parent">
-            <div id="expander1">expander</div>
-            <div>
+            <div class="parent">
+                <div class="expander1">expander</div>
                 <div>
-                    <div id="content1" class="content">content</div>
+                    <div>
+                        <div id="2000" class="content">content</div>
+                    </div>
                 </div>
             </div>
+            <div class="invalid1 content">content</div>
         </div>
 
-        <div id ="when-expander-is-several-parents-higher">
-            <div>
-                <div>
-                    <div id="expander1">expander</div>
+        <div id ="when-target-is-several-parents-higher-than-target">
+            <div class="parent">
+                <div class="parent">
+                    <div class="expander1">expander</div>
                 </div>
+                <div id="3000" class="content">content</div>
             </div>
             <div>
                 <div>
-                    <div id="content1" class="content">content</div>
                 </div>
             </div>
+            <div class="invalid1 content">content</div>
+        </div>
+
+        <div id ="when-expander-has-multiple-targets">
+            <div class="parent">
+                <div class="parent">
+                    <div class="expander1">expander</div>
+                    <div id="4000" class="content">content</div>
+                    <div id="4001" class="content">content</div>
+                    <div id="4002" class="content">content</div>
+                </div>
+                <div class="invalid1 content">content</div>
+            </div>
+            <div class="invalid1 content">content</div>
         </div>
     </body>
 </html>
