@@ -4,6 +4,31 @@
     </head>
     <body>
 
+        <div id = "when-expander-target-is-not-specified">
+            <div class="parent">
+                <div class="expander1">expander</div>
+            </div>
+            <div id="1000" class="content">content</div>
+        </div>
+
+
+        <div id = "when-expander-target-is-specified-when-single-match">
+            <div class="parent">
+                <div class="expander1" data-expander-target="#2000">expander</div>
+            </div>
+            <div id="2000">content</div>
+        </div>
+
+
+        <div id = "when-expander-target-is-specified-when-multiple-matches">
+            <div class="parent">
+                <div class="expander1" data-expander-target=".my-target">expander</div>
+            </div>
+            <div id="3000" class="my-target">content</div>
+        </div>
+        <!--3001 is located outside the html snippet for this test, just
+            to prove that this is really searching globally -->
+        <div id="3001" class="my-target">content</div>
 
 
     </body>
