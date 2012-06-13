@@ -6,14 +6,22 @@
 
         var base_test_settings = {};
 
+        var matchedtargets;
+
+        var mockFindTargets = function () {
+            var base = $.fn.simpleexpand.fn.findTargets;
+            spyOn($.fn.simpleexpand.fn, 'findTargets').andCallFake(function (a, b, c) {
+                matchedtargets = base(a, b, c);
+                return matchedtargets;
+            });
+        };
+
         beforeEach(function () {
+            // default hideMode is fadeToggle but that is incompatible with jasmine-jquery.
             base_test_settings = { 'hideMode': 'basic' };
         });
 
-
-        /*
-        This test uses the parent mode but does not test that mode per se. It just tests that toggeling works.
-        */
+        //This test uses the default parent mode but does not test that mode per se. It just tests that toggeling works.
         describe("when expanding and collapsing targets (independent of the searchMode)", function () {
 
             describe("with a single target", function () {
@@ -67,26 +75,14 @@
                     expect($('#2001')).not.toBeVisible();
                 });
             });
-
-
         });
 
         // Requires html fixture: parent.html
         describe("when searchMode is 'parent'", function () {
 
-            var matchedtargets;
-
             beforeEach(function () {
-
                 loadFixtures("parent mode.html");
-
-                var base = $.fn.simpleexpand.fn.findTargets;
-                spyOn($.fn.simpleexpand.fn, 'findTargets').andCallFake(function (a, b, c) {
-
-                    matchedtargets = base(a, b, c);
-                    return matchedtargets;
-                });
-
+                mockFindTargets();
             });
 
             describe("when expander is sibling of target", function () {
@@ -124,32 +120,19 @@
             });
         });
 
-
-
         // Requires html fixture: parent.html
         describe("when searchMode is 'absolute'", function () {
 
-            var matchedtargets;
-
             beforeEach(function () {
-
                 $.extend(base_test_settings, { 'defaultSearchMode': 'absolute' });
-
                 loadFixtures("absolute mode.html");
-
-                var base = $.fn.simpleexpand.fn.findTargets;
-                spyOn($.fn.simpleexpand.fn, 'findTargets').andCallFake(function (a, b, c) {
-
-                    matchedtargets = base(a, b, c);
-                    return matchedtargets;
-                });
-
+                mockFindTargets();
             });
 
             describe("when single match", function () {
 
                 it("target is found", function () {
-                    $("#when-expander-target-is-specified-when-single-match .expander1").simpleexpand(base_test_settings);
+                    $("#when-single-match .expander1").simpleexpand(base_test_settings);
                     expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
                     expect(matchedtargets).toContainSameItemsAs($('#2000'));
                 });
@@ -157,7 +140,7 @@
 
             describe("when multiple matches", function () {
                 it("targets are found", function () {
-                    $("#when-expander-target-is-specified-when-multiple-matches .expander1").simpleexpand(base_test_settings);
+                    $("#when-multiple-matches .expander1").simpleexpand(base_test_settings);
                     expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
                     expect(matchedtargets).toContainSameItemsAs($('#3000').add('#3001'));
                 });
@@ -165,35 +148,63 @@
 
         });
 
-
         // Requires html fixture: parent.html
         describe("when searchMode is 'relative'", function () {
 
-            var matchedtargets;
-
             beforeEach(function () {
-
                 $.extend(base_test_settings, { 'defaultSearchMode': 'relative' });
-
                 loadFixtures("relative mode.html");
-
-                var base = $.fn.simpleexpand.fn.findTargets;
-                spyOn($.fn.simpleexpand.fn, 'findTargets').andCallFake(function (a, b, c) {
-
-                    matchedtargets = base(a, b, c);
-                    return matchedtargets;
-                });
-
+                mockFindTargets();
             });
 
-            describe("when todo", function () {
+            describe("when single match", function () {
 
                 it("target is found", function () {
-                    $("#todo .expander1").simpleexpand(base_test_settings);
+                    $("#when-single-match .expander1").simpleexpand(base_test_settings);
                     expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
-                    expect(matchedtargets).toContainSameItemsAs($('#1000'));
+                    expect(matchedtargets).toContainSameItemsAs($('#2000'));
+                });
+            });
+
+            describe("when multiple matches", function () {
+
+                it("targets are found", function () {
+                    $("#when-multiple-matches .expander1").simpleexpand(base_test_settings);
+                    expect($.fn.simpleexpand.fn.findTargets).toHaveBeenCalled();
+                    expect(matchedtargets).toContainSameItemsAs($('#3000').add('#3001'));
                 });
             });
         });
+
+        // Requires html fixture: throwOnMissingTarget.html
+        describe("when throwOnMissingTarget is 'true'", function () {
+
+            beforeEach(function () {
+                $.extend(base_test_settings, { 'throwOnMissingTarget': true });
+                loadFixtures("throwOnMissingTarget.html");
+            });
+
+            it("exception is thrown", function () {
+                expect(function () {
+                    $("#missing-target .expander1").simpleexpand(base_test_settings);
+                }).toThrow(new Error("simple-expand: Targets not found"));
+            });
+        });
+
+        // Requires html fixture: throwOnMissingTarget.html
+        describe("when throwOnMissingTarget is 'false'", function () {
+
+            beforeEach(function () {
+                $.extend(base_test_settings, { 'throwOnMissingTarget': false });
+                loadFixtures("throwOnMissingTarget.html");
+            });
+
+            it("error is silent", function () {
+                expect(function () {
+                    $("#missing-target .expander1").simpleexpand(base_test_settings);
+                }).not.toThrow();
+            });
+        });
+
     });
 } ());
