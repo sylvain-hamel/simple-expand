@@ -7,6 +7,8 @@
     <meta name="description" content="Simple-expand: simple jQuery plug-in to expand/collapse elements" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link href="stylesheets/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+
 
     <title>Simple-expand: simple jQuery plug-in to expand/collapse elements</title>
 
@@ -14,14 +16,14 @@
             
             .content {display:none;}
             
-            #demo-with-image.expanded .expander {
+            #demo-with-image .expander.expanded {
                 padding-left: 13px;
                 background-position: left center;
                 background-repeat: no-repeat;
                 background-image: url(images/expanded.gif);
             }
         
-            #demo-with-image.collapsed .expander {
+            #demo-with-image .expander.collapsed {
                 padding-left: 13px;
                 background-position: left center;
                 background-repeat: no-repeat;
@@ -59,56 +61,51 @@
     <div id="header_wrap" class="outer">
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/redhotsly/simple-expand">View on GitHub</a>
+    
 
           <h1 id="project_title">Simple-expand</h1>
           <h2 id="project_tagline">simple jQuery plug-in to expand/collapse elements</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/redhotsly/simple-expand/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/redhotsly/simple-expand/tarball/master">Download this project as a tar.gz file</a>
-            </section>
         </header>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-
-
+        <a class="zip_download_link" href="https://github.com/redhotsly/simple-expand/downloads">Download</a>
 
         <h1>
-        How it works?
+        How to use it?
         <small>All you need is:</small>
         </h1>
         
         <h3>The markup:</h3>
-        <PRE class=code>&lt;<SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">id</SPAN><SPAN style="COLOR: blue">="#container"&gt;
-    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
-    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;</SPAN>
-        content to hide.
-    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-&lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;</SPAN></PRE>
-        <br />
+        <PRE class="prettyprint">&lt;a class="expander" href="#"&gt;click me&lt;/a&gt;
+&lt;div class="content"&gt;
+    content to hide.
+&lt;/div&gt;</PRE>
+        
+        <p>
+        You need:
+        </p>
         <ul>
-            <li>A container element on which you run the plugin.</li>
-            <li>An element with class "expander"; Clicking this element expands/colapses the content.</li>
-            <li>An element with class "content". This is the content to expand/colapse.</li>
+            <li>An element to use as the expander. Clicking this element will expand/colapse the content.</li>
+            <li>An element with class <kbd>content</kbd>. This is the content to expand/colapse.</li>
         </ul>
         <h3>The javascript:</h3>
-        <pre style="font-family:Consolas;font-size:13;color:black;background:white;">$(<span style="color:maroon;">&#39;#container&#39;</span>).simpleexpand();</pre>
+        <pre class="prettyprint" >$('.expander').simpleexpand();</pre>
         <p>This will enable the plug-in on the given element(s). From this point forward, you can click the expander to expand/collapse the content.</p>
-
 
         <h3>
         You might also consider:
         </h3>
         <p>Adding a css class to hide all content elements while the document is loading to prevent blinking when the plug-in kicks in.</p>
-        <pre style="font-family:Consolas;font-size:13;color:black;background:white;"><span style="color:maroon;">.content</span>&nbsp;{<span style="color:red;">display</span>:<span style="color:blue;">none</span>;}</pre>
+        <pre class="prettyprint lang-css">.content {display:none;}</pre>
 
         <h3>
         Note that:
         </h3>
         <p>You can use any type of element you want as the expander or as the content.</p>
+        <p>If you always use the same class for all your expanders (such as <kbd>expander</kbd>) and the default <kbd>content</kbd> css class for your content, you will only need that one line of code to enable simple-expand on your page.</p>
         </section>
     </div>
     <div id="demos_wrap" class="outer">
@@ -124,7 +121,7 @@
             <h6 id="demo-simplest-top">1. This is the simplest version</h6>
             <div class="demo-frame">
                 <div id="demo-simplest">
-                    <a class="expander" href="#">click me</a>
+                    <a class="expander"  href="#">click me</a>
                     <div class="content">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             
@@ -142,7 +139,6 @@
                 </div>
             </div>
 
-
             <!-- ********************************************
             demo-with-image
             ******************************************** -->
@@ -150,7 +146,7 @@
 
             <div class="demo-frame">
                 <div id="demo-with-image">
-                    <a class="expander" href="#">click me</a>
+                    <a class="expander"  href="#">click me</a>
                     <ul class="content">
                         <li>You can use</li>
                         <li>anything you like</li>
@@ -159,31 +155,28 @@
                 </div>
             </div>
 
-            <div class="demo-code">
-                <p>All you need is the css classes to set an image on the expander element for the expanded and collapsed states. <a class="expander" href="#">Show css</a>
+            <div class="demo-code" >
+                <p>All you need is the css classes to set an image on the expander element for the expanded and collapsed states. <a class="expander"  href="#" id = "a1a1">Show css</a>
                 </p>
             
             
                 <div class="content">
-<PRE class=code><SPAN style="COLOR: maroon">#container.expanded .expander </SPAN>{
-    <SPAN style="COLOR: red">padding-left</SPAN>: <SPAN style="COLOR: blue">13px</SPAN>;
-    <SPAN style="COLOR: red">background-position</SPAN>: <SPAN style="COLOR: blue">left center</SPAN>;
-    <SPAN style="COLOR: red">background-repeat</SPAN>: <SPAN style="COLOR: blue">no-repeat</SPAN>;
-    <SPAN style="COLOR: red">background-image</SPAN>: <SPAN style="COLOR: blue">url(images/expanded.gif)</SPAN>;
+                    <PRE class="prettyprint">#container.expanded .expander {
+    padding-left: 13px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image: url(images/expanded.gif);
 }
 
-<SPAN style="COLOR: maroon">#container.collapsed .expander </SPAN>{
-    <SPAN style="COLOR: red">padding-left</SPAN>: <SPAN style="COLOR: blue">13px</SPAN>;
-    <SPAN style="COLOR: red">background-position</SPAN>: <SPAN style="COLOR: blue">left center</SPAN>;
-    <SPAN style="COLOR: red">background-repeat</SPAN>: <SPAN style="COLOR: blue">no-repeat</SPAN>;
-    <SPAN style="COLOR: red">background-image</SPAN>: <SPAN style="COLOR: blue">url(images/collapsed.gif)</SPAN>;
-}
-</PRE>
+#container.collapsed .expander {
+    padding-left: 13px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image: url(images/collapsed.gif);
+}</PRE>
                 </div>
 
             </div>
-        
-
 
             <!-- ********************************************
             demo-nesting
@@ -191,22 +184,22 @@
             <h6 id="demo-nesting-top">3. You can nest containers </h6>
             <div class="demo-frame">
                 <div id="demo-nesting">
-                    <a class="expander" href="#">click me</a>
+                    <a class="expander"   href="#">click me</a>
                     <div class="content">
                         <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p>
+                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. </p>
     
                         <div id="demo-nesting-sub1">    
-                            <a class="expander" href="#">more...</a>
+                            <a class="expander"   href="#">more...</a>
                             <div class="content">
                                 <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-                                blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+                                blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. </p> 
 
                                 <div id="demo-nesting-sub2">    
-                                    <a class="expander" href="#">even more...</a>
+                                    <a class="expander"   href="#">even more...</a>
                                     <div class="content">
                                         <p>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-                                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <p> 
+                                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. </p> 
                                     </div>
                                 </div>
                             </div>
@@ -216,55 +209,52 @@
             </div>  
 
             <div class="demo-code">
-                <p>There really is nothing special to do. Nesting works naturally. <a class="expander" href="#">Show code</a>
+                <p>There really is nothing special to do. Nesting works naturally. <a class="expander"  href="#">Show code</a>
                 </p>
 
                 <div class="content">
                 <h6>Html</h6>
-<PRE class=code><SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;
-    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
-    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
-        &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;
+                    <PRE class="prettyprint">&lt;div class="expand-container"&gt;
+    &lt;a class="expander" href="#"&gt;click me&lt;/a&gt;
+    &lt;div class="content"&gt;
+        &lt;p&gt;Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. &lt;p&gt;
     
-        &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;    
-            &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
-            &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
-                &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-                blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt; 
+        &lt;div class="expand-container"&gt;    
+            &lt;a class="expander" href="#"&gt;click me&lt;/a&gt;
+            &lt;div class="content"&gt;
+                &lt;p&gt;Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. &lt;p&gt; 
 
-                &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expand-container"&gt;    
-                    &lt;</SPAN><SPAN style="COLOR: maroon">a </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="expander" </SPAN><SPAN style="COLOR: red">href</SPAN><SPAN style="COLOR: blue">="#"&gt;</SPAN>click me<SPAN style="COLOR: blue">&lt;/</SPAN><SPAN style="COLOR: maroon">a</SPAN><SPAN style="COLOR: blue">&gt;
-                    &lt;</SPAN><SPAN style="COLOR: maroon">div </SPAN><SPAN style="COLOR: red">class</SPAN><SPAN style="COLOR: blue">="content"&gt;
-                        &lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt;</SPAN>Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
-                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. <SPAN style="COLOR: blue">&lt;</SPAN><SPAN style="COLOR: maroon">p</SPAN><SPAN style="COLOR: blue">&gt; 
-                    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-                &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-
-            &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-
-        &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-    &lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;
-&lt;/</SPAN><SPAN style="COLOR: maroon">div</SPAN><SPAN style="COLOR: blue">&gt;  
-</SPAN></PRE>
+                &lt;div class="expand-container"&gt;    
+                    &lt;a class="expander" href="#"&gt;click me&lt;/a&gt;
+                    &lt;div class="content"&gt;
+                        &lt;p&gt;Donec porta porttitor tellus sit amet cursus. Morbi nulla odio,
+                        blandit ac interdum at, consectetur eget purus. Ut cursus rhoncus. &lt;p&gt; 
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</PRE>
 
                 <h6>Javascript</h6>
-                <PRE class=code>$(<SPAN style="COLOR: maroon">'.expand-container'</SPAN>).simpleexpand();</PRE>
+                <PRE class="prettyprint">$('.expand-container').simpleexpand();</PRE>
 
                 </div>
 
             </div>  
 
             <!-- ********************************************
-            demo-nesting
+            expander deeper then content
             ******************************************** -->
-            <h6 id="demo-expander-deep-top">4. The expander can be nested deep inside other elements</h6>
+            <h6 id="demo-expander-deep-top">4. The expander can be deep inside other elements and still affect a content outside the expander's scope</h6>
             <div class="demo-frame">
                 <div id="demo-expander-deep">
                     <ul>
                         <li>item 1</li>
                         <li>item 1</li>
-                        <li><a class="expander" href="#demo-nesting-top">click me</a></li>
+                        <li><a class="expander"  href="#">click me</a></li>
                         <li>item 1</li>
                         <li>item 1</li>                    
                     </ul>
@@ -276,10 +266,139 @@
                 </div>  
             </div>
         
+            <!-- ********************************************
+            expander can affect page
+            ******************************************** -->
+            <h6 id="demo-expander-global-top">5. The expander can affect multiple targets.</h6>
+            <div class="demo-frame">
+                <div id="demo-expander-global">
+                    <a class="expander" data-expander-target=".demo-code .content" data-expander-target-search="absolute" href="#">click me toggle all code snippets in this page</a>
+                </div>  
+            </div>
 
+            <div class="demo-code">
+                <p>Use the optional <kbd>data-expander-target</kbd> and <kbd>data-expander-target-search</kbd> attributes to change how targets are found.  <a class="expander" href="#">Show code</a>
+                </p>
+                 
+                <div class="content">
+                    <h6>Html</h6>
+<PRE class="prettyprint">&lt;a class="expander" data-expander-target=".demo-code .content" 
+                    data-expander-target-search="absolute" href="#"&gt;
+click me toggle all code snippets in this page
+&lt;/a&gt;</PRE>
+
+                    <h6>Javascript</h6>
+                    <PRE class="prettyprint">$('.expand-container').simpleexpand();</PRE>
+
+                </div>
+
+            </div>  
         </section>
     </div>
+    <div id="docs_wrap" class="outer">
+    <section id="docs" class="inner">
 
+            <h1>
+            Documentation
+            </h1>
+        
+            <h3>
+            The Magic
+            </h3>
+
+            <p>
+            By default, the plug-in tries to automatically find the target(s) for each expander. You don't need to point it to its targets. The plug-in will match the "closest" target. Here is how it works.
+            </p>
+            <ol>
+                <li>Inspect the expander's siblings and search for a sibling with the <kbd>content</kbd> css class. </li>
+                <li>If none is found go up one level in the expander's parents. Inspect the parent's children and search for a child with the <kbd>content</kbd> css class. </li>
+                <li>If none is found go up one level again and retry.</li>
+            </ol>
+            <p>
+            If the default does not work for you, change the defaut for everything (see next section). If one specific instance does not work, use the attributes on that expander for fine grained control (see below).            
+            </p>
+
+            <h3>
+            The Options
+            </h3>
+            <p>
+                You can change defaults using the usual syntax:
+            </p>
+
+            <pre class="prettyprint">$('.expander').simpleexpand({'option1':'value1', 'option2':'value2'});</pre>
+            <p>Options documentation from simple-expand.js:</p>
+
+            <pre class="prettyprint">
+// hideMode
+// -----------
+// Specifies method to hide the content element.
+//
+// Default: fadeToggle
+//
+// Values:
+// - fadeToggle: Use jquery.fadeToggle()
+// - basic: Use jquery.toggle()
+// - css: relies on user provided css to show/hide. you can defines
+//   classes for "collapsed" and "expanded" classes.
+//
+// If un an unknown value is specified, the plug-in reverts to "css".
+'hideMode': 'fadeToggle',
+
+// searchMode
+// -----------
+// Specifies the defaut value for  data-expander-target-search
+// when none is specified on the expander element.
+//
+// Default: parent
+//
+// Values:
+// - parent: go up the expander's parents hierarchy searching 
+//           each parent's childens looking for a target
+//
+// - absolute : finds a target globally in the document (useful when 
+//              matching an id)
+//
+// - relative : finds a target nested inside the expander
+//
+// If un an unknown value is specified, no targets will be found.
+'defaultSearchMode': 'parent',
+
+// defaultTarget
+// -----------
+// Specifies the defaut value for data-expander-target when
+// none is specified on the expander element. This is a regular 
+// jQuery expander. You can use anything that jQuery likes.
+//
+// Default: .content
+'defaultTarget': '.content',
+
+// throwOnMissingTarget
+// -----------
+// Specifies whether the plug-in throws an exception if it
+// cannot find a target for the expander 
+//
+// Default: true
+'throwOnMissingTarget': true</pre>
+            <h3>
+            Fine grained control per expander
+            </h3>
+            <p>
+                You can use <kbd>data-expander-target</kbd> and <kbd>data-expander-target-search</kbd> attributs on individual expander elements to override the defaults for a specific expander. They do the same as the <kbd>searchMode</kbd> and <kbd>defaultTarget</kbd> options but for a single expander.
+            </p>
+            <pre class="prettyprint">// target all special divs (data-expander-target="div.special")
+// on the page (data-expander-target-search="absolute").
+&lt;a class="expander" 
+    data-expander-target="div.special" 
+    data-expander-target-search="absolute" 
+    href="#"&gt;click me toggle all code snippets in this page&lt;/a&gt;</pre>
+            <h3>
+            The unit tests
+            </h3>
+            <p>
+                If the above documentation is not enough, read the <a href="https://github.com/redhotsly/simple-expand/blob/master/tests/spec/simple-expand.spec.js" target="_blank">jasmine unit tests</a> to get a better understanding of what you can do and wht the edge cases are.
+            </p>
+        </section>
+    </div>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
@@ -288,35 +407,17 @@
       </footer>
     </div>
 
-
+    <script type="text/javascript" src="javascripts/google-code-prettify/prettify.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://raw.github.com/redhotsly/simple-expand/master/src/simple-expand.js"></script>
     
     <script type="text/javascript">
         $(function () {
-            $('#demo-simplest').simpleexpand();
-            $('#demo-with-image').simpleexpand();
-            $('#demo3').simpleexpand({ hideMode: "" });
-            $('#demo4').simpleexpand();
-            $('#demo-nesting').simpleexpand();
-            $('#demo-nesting-sub1').simpleexpand();
-            $('#demo-nesting-sub2').simpleexpand();
-            $('#demo-expander-deep').simpleexpand();
+            $('.expander').simpleexpand();
+            prettyPrint();
         });
     </script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('.demo-code').simpleexpand();
-        });
-    </script>
-
-
-
 
   </body>
-
-
-
   
 </html>

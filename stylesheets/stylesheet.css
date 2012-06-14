@@ -189,17 +189,16 @@ blockquote {
 }
 
 ul, ol, dl {
-  margin-bottom: 15px
+  margin-bottom: 15px;
+  padding-left: 40px;  
 }
 
 ul li {
-  list-style: inside;
-  padding-left: 20px;
+  list-style: outside;
 }
 
 ol li {
-  list-style: decimal inside;
-  padding-left: 20px;
+  list-style: decimal outside;
 }
 
 dl dt {
@@ -288,6 +287,62 @@ h6 small {
 }
 
 
+#docs_wrap {
+  background: #f2f2f2;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+#support_wrap {
+  background: #DBDBDB;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+kbd{
+  color: #204B96;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-weight:bold;
+  font-size: 14px;
+  
+}
+
+#main_content a.zip_download_link {
+  border: solid #8C8C8C;
+  border-width: 0px 1px 1px 1px;
+  background-color:#FFAE00;
+  color:#fff;
+  font-size:18px;
+  font-weight:bold;
+  -webkit-text-shadow:1px 1px 6px #333333;
+     -moz-text-shadow:1px 1px 6px #333333;
+      -ms-text-shadow:1px 1px 6px #333333;
+       -o-text-shadow:1px 1px 6px #333333;
+          text-shadow:1px 1px 6px #333333;
+
+
+  -webkit-box-shadow: 1px 0px 8px rgba(50, 50, 50, 0.7);
+     -moz-box-shadow: 1px 0px 8px rgba(50, 50, 50, 0.7);
+      -ms-box-shadow: 1px 0px 8px rgba(50, 50, 50, 0.7);
+       -o-box-shadow: 1px 0px 8px rgba(50, 50, 50, 0.7);
+          box-shadow: 1px 0px 8px rgba(50, 50, 50, 0.7);
+
+  padding-right:20px;
+  padding-left:20px;
+  padding-top:9px;
+  padding-bottom:12px;
+  float: right;
+  margin-top:-40px;
+  margin-right:-30px;
+
+}
+
+#main_content a.zip_download_link:hover {
+  color:#fff;
+  background-color:#FF9100;
+}
+
+
 
 
 /*******************************************************************************
@@ -307,9 +362,11 @@ Full-Width Styles
 
 #forkme_banner {
   display: block;
-  position: absolute;
+  /*position: absolute;*/
   top:0;
-  right: 10px;
+  float:right;
+  margin-top:-50px;
+  margin-right:-32px;
   z-index: 10;
   padding: 10px 50px 10px 10px;
   color: #fff;
@@ -349,6 +406,7 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
+/*
 #downloads {
   position: absolute;
   width: 210px;
@@ -359,6 +417,10 @@ Full-Width Styles
   background: url('../images/icon_download.png') no-repeat 0% 90%;
 }
 
+*/
+
+
+/*
 .zip_download_link {
   display: block;
   float: right;
@@ -387,6 +449,10 @@ Full-Width Styles
 .tar_download_link:hover {
   background: url(../images/sprite_download.png) no-repeat top right;
 }
+*/
+
+
+
 
 #main_content_wrap {
   background: #f2f2f2;
@@ -455,7 +521,4 @@ Small Device Styles
     max-width: 480px;
     font-size: 11px;
   }
-  
-
-
 }
