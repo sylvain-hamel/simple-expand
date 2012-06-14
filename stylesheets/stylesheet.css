@@ -307,7 +307,7 @@ kbd{
   
 }
 
-#main_content a.zip_download_link {
+#main_content .zip_download_links{
   border: solid #8C8C8C;
   border-width: 0px 1px 1px 1px;
   background-color:#FFAE00;
@@ -334,13 +334,24 @@ kbd{
   float: right;
   margin-top:-40px;
   margin-right:-30px;
-
+  text-align:center;
+    
 }
 
-#main_content a.zip_download_link:hover {
+#main_content.zip_download_links:hover {
   color:#fff;
   background-color:#FF9100;
 }
+
+#main_content a.zip_download_link {
+    font-size:16px;
+  color:#fff;
+}
+
+#main_content a.zip_download_link {
+  color:#fff;
+}
+
 
 
 
