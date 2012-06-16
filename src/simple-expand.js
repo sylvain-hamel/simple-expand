@@ -45,7 +45,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             // Values:
             // - fadeToggle: Use jquery.fadeToggle()
             // - basic: Use jquery.toggle()
-            // - css: relies on user provided css to show/hide. you can defines
+            // - css: relies on user provided css to show/hide. you can define
             //   classes for "collapsed" and "expanded" classes.
             //
             // If un an unknown value is specified, the plug-in reverts to "css".
