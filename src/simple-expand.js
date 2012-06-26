@@ -30,7 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 (function () {
     "use strict";
 
-    function PlugIn() {
+    // SimpleExpand 
+    function SimpleExpand() {
 
         var that = this;
 
@@ -47,6 +48,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             // - basic: Use jquery.toggle()
             // - css: relies on user provided css to show/hide. you can define
             //   classes for "collapsed" and "expanded" classes.
+            // - a function : custom toggle function. The function receives 3 arguments
+            //                expander: the element that triggered the toggle
+            //                targets: the items to toggle
+            //                expanded: true if expanding; false if collapsing
             //
             // If un an unknown value is specified, the plug-in reverts to "css".
             'hideMode': 'fadeToggle',
@@ -90,7 +95,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         that.settings = {};
         $.extend(that.settings, that.defaults);
 
-
         // Search in the children of the 'parent' element for an element that matches 'filterSelector'
         // but don't search deeper if a 'stopAtSelector' element is met.
         //     See this question to better understand what this does.
@@ -100,7 +104,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 return !$(this).parentsUntil(parent, stopAtSelector).length;
             });
         };
-
 
         // Hides targets
         that.hideTargets = function (targets) {
@@ -116,21 +119,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         // Toggles the targets and sets the 'collapsed' or 'expanded'
         // class on the expander
         that.toggle = function (expander, targets) {
-            if (expander.hasClass("expanded")) {
-                expander.toggleClass("collapsed expanded");
-            }
-            else {
-                expander.toggleClass("expanded collapsed");
-            }
+
+            var expanded = that.toggleCss(expander);
 
             if (that.settings.hideMode === "fadeToggle") {
                 targets.fadeToggle(150);
             } else if (that.settings.hideMode === "basic") {
                 targets.toggle();
+            } else if ($.isFunction(that.settings.hideMode)) {
+                that.settings.hideMode(expander, targets, expanded);
             }
 
             // prevent default to stop browser from scrolling to: href="#"
             return false;
+        };
+
+        // Toggles using css
+        that.toggleCss = function (expander) {
+            if (expander.hasClass("expanded")) {
+                expander.toggleClass("collapsed expanded");
+                return false;
+            }
+            else {
+                expander.toggleClass("expanded collapsed");
+                return true;
+            }
         };
 
         // returns the targets for the given expander
@@ -145,7 +158,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             }
             else if (searchMode === "parent") {
 
-                // Search the expander's parents recursively until targets are found.
+                    // Search the expander's parents recursively until targets are found.
                 var parent = expander.parent();
                 do {
                     targets = that.findLevelOneDeep(parent, targetSelector, targetSelector);
@@ -199,14 +212,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
     }
 
-    var instance = new PlugIn();
+    // export SimpleExpand
+    window.SimpleExpand = SimpleExpand;
 
+    // expose SimpleExpand as a jQuery plugin
     $.fn.simpleexpand = function (options) {
+        var instance = new SimpleExpand();
         instance.activate(this, options);
         return this;
     };
-
-    // expose plugin publicly for unit testing
-    $.fn.simpleexpand.fn = instance;
-
-} ());
+}());
