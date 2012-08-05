@@ -27,6 +27,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ===============================================================
 */
+/*globals $:false, window:false*/
 (function () {
     "use strict";
 
@@ -89,7 +90,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             // cannot find a target for the expander 
             //
             // Default: true
-            'throwOnMissingTarget': true
+            'throwOnMissingTarget': true,
+
+            // keepStateInCookie
+            // -----------
+            // Specifies whether the plug-in keeps the expended/collapsed state 
+            // in a cookie for the next time.
+            //
+            // Default: false
+            //
+            // Notes:
+            // - This only works for targets with an Id attribute.
+            // - Make sure you load the jQuery cookie plug-in (https://github.com/carhartl/jquery-cookie/)
+            //   before simple-expand is loaded.
+            //     
+            'keepStateInCookie': false,
+            'cookieName': 'simple-expand'
         };
 
         that.settings = {};
@@ -106,29 +122,99 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
 
         // Hides targets
-        that.hideTargets = function (targets) {
+        that.setInitialState = function (expander, targets) {
+            var isExpanded = that.readState(expander);
 
+            if (isExpanded) {
+                expander.removeClass("collapsed").addClass("expanded");
+                that.show(targets);
+            } else {
+                expander.removeClass("expanded").addClass("collapsed");
+                that.hide(targets);
+            }
+        };        
+
+        that.hide = function (targets) {
             if (that.settings.hideMode === "fadeToggle") {
                 targets.hide();
             } else if (that.settings.hideMode === "basic") {
                 targets.hide();
             }
+        };
 
+        that.show = function (targets) {
+            if (that.settings.hideMode === "fadeToggle") {
+                targets.show();
+            } else if (that.settings.hideMode === "basic") {
+                targets.show();
+            }
+        };
+
+        // assert that $.cookie if 'keepStateInCookie' option is enabled
+        that.checkKeepStateInCookiePreconditions = function () {
+            if (that.settings.keepStateInCookie && $.cookie === undefined){
+                throw new Error("simple-expand: keepStateInCookie option requires $.cookie to be defined.");
+            }
+        };
+
+        // returns the cookie
+        that.readCookie = function () {
+            var jsonString = $.cookie(that.settings.cookieName);
+            if ( jsonString === null  || jsonString === '' ){
+                return {};
+            }
+            else{
+                return JSON.parse(jsonString);
+            }
+        };
+
+        // gets state for the expander from cookies
+        that.readState = function (expander) {
+            if (!that.settings.keepStateInCookie){
+                return false;
+            }
+
+            var id = expander.attr('Id');
+            if (id === undefined){
+                return;
+            }
+
+            var cookie = that.readCookie();
+            var isExpanded = cookie[id] === true || false;
+            return isExpanded;
+        };
+
+        // save states of the item in the cookies
+        that.saveState = function (expander, isExpanded) {
+            if (!that.settings.keepStateInCookie){
+                return;
+            }
+
+            var id = expander.attr('Id');
+            if (id === undefined){
+                return;
+            }
+
+            var cookie = that.readCookie();
+            cookie[id] = isExpanded;
+            $.cookie(that.settings.cookieName, JSON.stringify(cookie), { raw: true, path:window.location.pathname });
         };
 
         // Toggles the targets and sets the 'collapsed' or 'expanded'
         // class on the expander
         that.toggle = function (expander, targets) {
 
-            var expanded = that.toggleCss(expander);
+            var isExpanded = that.toggleCss(expander);
 
             if (that.settings.hideMode === "fadeToggle") {
                 targets.fadeToggle(150);
             } else if (that.settings.hideMode === "basic") {
                 targets.toggle();
             } else if ($.isFunction(that.settings.hideMode)) {
-                that.settings.hideMode(expander, targets, expanded);
+                that.settings.hideMode(expander, targets, isExpanded);
             }
+
+            that.saveState(expander, isExpanded);
 
             // prevent default to stop browser from scrolling to: href="#"
             return false;
@@ -175,6 +261,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         that.activate = function (jquery, options) {
             $.extend(that.settings, options);
 
+            that.checkKeepStateInCookiePreconditions();
+
+
             // Plug-in entry point
             //
             // For each expander:
@@ -198,11 +287,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     return this;
                 }
 
-                // set initial style
-                expander.removeClass("expanded").addClass("collapsed");
-
-                // start with all targets hidden
-                that.hideTargets(targets);
+                that.setInitialState(expander, targets);
 
                 // hook the click on the expander
                 expander.click(function () {

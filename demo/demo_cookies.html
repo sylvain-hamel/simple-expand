@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Simple-expand: simple jQuery plug-in to expand/collapse elements" />
+    <title>Simple-expand: simple jQuery plug-in to expand/collapse elements</title>
+    <style>            
+        .content {display:none;}
+        
+        .toggle.expander.expanded {
+            padding-left: 13px;
+            background-position: left center;
+            background-repeat: no-repeat;
+            background-image: url(expanded.gif);
+        }
+    
+        .toggle.expander.collapsed {
+            padding-left: 13px;
+            background-position: left center;
+            background-repeat: no-repeat;
+            background-image: url(collapsed.gif);
+        }        
+        
+        #demo-nesting-sub1 {
+            margin-left: 20px;
+        }
+        
+        #demo-nesting-sub2 {
+            margin-left: 40px;
+        }            
+    </style>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.cookie.js"></script>
+    <script type="text/javascript" src="../src/simple-expand.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.group1').simpleexpand({keepStateInCookie:true});
+        });
+    </script>
+    
+  </head>
+    <body>
+        <div>
+            <div class="group1" id="expander1">expander</div>
+            <div id="1000" class="content">content</div>
+        </div>
+        <div>
+            <div class="group1" id="expander2">expander</div>
+            <div id="2000" class="content">content</div>
+        </div>
+        <div>
+            <div class="group1" id="expander3">expander</div>
+            <div id="3000" class="content">content</div>
+        </div>        
+        <div>
+            <div class="group1">expander</div>
+            <div class="content">content with no id; does not remember state</div>
+        </div>        
+    </body>
+</html>

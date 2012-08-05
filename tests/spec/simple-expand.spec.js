@@ -1,7 +1,7 @@
 ﻿/// <reference path="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
 /// <reference path="../lib/jasmine-1.2.0/jasmine.js" />
 /// <reference path="../../src/simple-expand.js" />
-/*global describe:true, beforeEach:true, loadFixtures:true, expect:true, it:true, loadFixtures:true, spyOn:true */
+/*global window:false, SimpleExpand:false, $:false, describe:true, beforeEach:true, afterEach:true, loadFixtures:true, expect:true, it:true, loadFixtures:true, spyOn:true */
 
 (function () {
     "use strict";
@@ -243,6 +243,105 @@
                     expect(capturedcontent).toBeDefined();
                     expect(capturedexpanded).toBeDefined();
 
+                });
+            });
+        });
+
+        // Tests for keeping the expand/collapsed state between sessions. For these tests to pass, SpecRunner.html must
+        // be served via an http server because cookies cannot be set for file://
+        describe("keepStateInCookie enabled", function () {
+
+            beforeEach(function () {
+                $.extend(base_test_settings, { 'keepStateInCookie': true });
+            });
+
+            describe("when cookie library is not defined", function () {
+                it("it throws an error", function () {
+                    $.cookie = undefined;
+                    expect(function () {
+                        simpleexpand.activate($("12345"), base_test_settings);
+                    }
+                    ).toThrow(new Error("simple-expand: keepStateInCookie option requires $.cookie to be defined."));
+                });
+            });
+
+            describe("when cookie library is defined", function () {
+
+                beforeEach(function () {
+                    loadFixtures("cookies.html");
+                    $.extend(base_test_settings, { 'keepStateInCookie': true, 'cookieName':'simple-expand-unit-test' });
+                    $.cookie('simple-expand-unit-test', null, { raw: true, path:window.location.pathname } );
+                });
+
+                afterEach(function () {
+                    $.cookie('simple-expand-unit-test', null, { raw: true, path:window.location.pathname } );
+                });
+
+                it("it does not throw an error", function () {
+                    $.cookie = function function_name () {};
+                    simpleexpand.activate($("12345"), base_test_settings);
+                });
+
+                describe("when expander with an Id is expanded", function () {
+                    it("it saves state to cookie", function () {
+                        simpleexpand.activate($("#expander1"), base_test_settings);
+                        $("#expander1").click();
+                        var cookie = simpleexpand.readCookie();
+                        expect(cookie.expander1).toEqual(true);
+                    });
+                });
+
+                describe("when expander with an Id is collapsed", function () {
+                    it("it saves state to cookie", function () {
+                        simpleexpand.activate($("#expander1"), base_test_settings);
+                        $("#expander1").click(); //expand
+                        $("#expander1").click(); //collapse
+                        var cookie = simpleexpand.readCookie();
+                        expect(cookie.expander1).toEqual(false);
+                    });
+                });
+
+                describe("when expander without an Id is expanded", function () {
+                    it("it does not save state to cookie", function () {
+                        simpleexpand.activate($("#expander4"), base_test_settings);
+                        $("#expander4").click(); //expand
+                        
+                        //no assertion; just proves it does not throw an error.
+                    });
+                });
+
+                describe("when expander without an Id is collapsed", function () {
+                    it("it does not save state to cookie", function () {
+                        simpleexpand.activate($("#expander4"), base_test_settings);
+                        $("#expander4").click(); //expand
+                        $("#expander4").click(); //collapse
+                        
+                        //no assertion; just proves it does not throw an error.
+                    });
+                });            
+
+                describe("when plug-in hides elements at starts", function () {
+
+                    beforeEach(function () {
+                        $.cookie('simple-expand-unit-test', JSON.stringify({
+                                "expander2":false,
+                                "expander3":true
+                            }
+                        ), { raw: true, path:window.location.pathname });
+                        simpleexpand.activate($(".group1"), base_test_settings);
+                    });
+
+                    it("it hides target if expander has no cookie value", function () {
+                        expect($('#1000')).not.toBeVisible();
+                    });
+
+                    it("it hides target if expander has 'false' cookie value", function () {
+                        expect($('#2000')).not.toBeVisible();
+                    });
+
+                    it("show targets if expander has 'true' cookie value", function () {
+                        expect($('#3000')).toBeVisible();
+                    });
                 });
             });
         });
