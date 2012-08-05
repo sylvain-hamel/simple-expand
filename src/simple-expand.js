@@ -100,7 +100,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             // Default: false
             //
             // Notes:
-            // - This only works for targets with an Id attribute.
+            // - This only works for expanders with an Id attribute.
             // - Make sure you load the jQuery cookie plug-in (https://github.com/carhartl/jquery-cookie/)
             //   before simple-expand is loaded.
             //     
