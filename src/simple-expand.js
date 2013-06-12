@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ===============================================================
 */
 /*globals $:false, window:false*/
-(function () {
+(function ($) {
     "use strict";
 
     // SimpleExpand 
@@ -306,4 +306,4 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         instance.activate(this, options);
         return this;
     };
-}());
+}(jQuery));
