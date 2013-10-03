@@ -171,7 +171,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         // gets state for the expander from cookies
         that.readState = function (expander) {
             if (!that.settings.keepStateInCookie){
-                return false;
+                if (expander.hasClass("expanded")) {                    
+                    return true;
+                }
+                else {
+                    return false
+                }
             }
 
             var id = expander.attr('Id');
