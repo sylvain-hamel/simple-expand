@@ -170,8 +170,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         // gets state for the expander from cookies
         that.readState = function (expander) {
+
+            // if cookies and not enabled, use the current
+            // style of the element as the initial value
             if (!that.settings.keepStateInCookie){
-                return false;
+                 return expander.hasClass("expanded");
             }
 
             var id = expander.attr('Id');
@@ -180,8 +183,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             }
 
             var cookie = that.readCookie();
-            var isExpanded = cookie[id] === true || false;
-            return isExpanded;
+            var cookieValue = cookie[id];
+
+            // if a cookie is stored for this id, used that value
+            if (typeof cookieValue !== "undefined"){
+                return cookie[id] === true;
+            }
+            else{
+                // otherwise use the current
+                // style of the element as the initial value
+                return expander.hasClass("expanded");
+            }
         };
 
         // save states of the item in the cookies

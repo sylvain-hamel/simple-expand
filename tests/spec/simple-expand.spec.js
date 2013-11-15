@@ -53,6 +53,31 @@
                 });
             });
 
+            describe("with a single target expanded by default", function () {
+
+                beforeEach(function () {
+                    loadFixtures("toggeling.html");
+                    simpleexpand.activate($("#expander3"), base_test_settings);
+                });
+
+                it("is expanded by default", function () {
+                    expect($('#3000')).toExist();
+                    expect($('#3000')).toBeVisible();
+                });
+
+                it("target can be collapsed", function () {
+                    $("#expander3").click();
+                    expect($('#3000')).not.toBeVisible();
+                });
+
+                it("target can be expanded again", function () {
+                    $("#expander3").click();
+                    $("#expander3").click();
+                    expect($('#3000')).toBeVisible();
+                });
+
+            });
+
             describe("with multiple targets", function () {
 
                 beforeEach(function () {
@@ -303,8 +328,8 @@
 
                 describe("when expander without an Id is expanded", function () {
                     it("it does not save state to cookie", function () {
-                        simpleexpand.activate($("#expander4"), base_test_settings);
-                        $("#expander4").click(); //expand
+                        simpleexpand.activate($(".no-id"), base_test_settings);
+                        $(".no-id").click(); //expand
                         
                         //no assertion; just proves it does not throw an error.
                     });
@@ -312,9 +337,9 @@
 
                 describe("when expander without an Id is collapsed", function () {
                     it("it does not save state to cookie", function () {
-                        simpleexpand.activate($("#expander4"), base_test_settings);
-                        $("#expander4").click(); //expand
-                        $("#expander4").click(); //collapse
+                        simpleexpand.activate($(".no-id"), base_test_settings);
+                        $(".no-id").click(); //expand
+                        $(".no-id").click(); //collapse
                         
                         //no assertion; just proves it does not throw an error.
                     });
@@ -325,7 +350,8 @@
                     beforeEach(function () {
                         $.cookie('simple-expand-unit-test', JSON.stringify({
                                 "expander2":false,
-                                "expander3":true
+                                "expander3":true,
+                                "expander5":false
                             }
                         ), { raw: true, path:window.location.pathname });
                         simpleexpand.activate($(".group1"), base_test_settings);
@@ -335,8 +361,16 @@
                         expect($('#1000')).not.toBeVisible();
                     });
 
+                    it("it show target if expander has no cookie value but element has the expanded class", function () {
+                        expect($('#4000')).toBeVisible();
+                    });
+
                     it("it hides target if expander has 'false' cookie value", function () {
                         expect($('#2000')).not.toBeVisible();
+                    });
+
+                    it("it hides target if expander has 'false' cookie value even if element has the expanded class", function () {
+                        expect($('#5000')).not.toBeVisible();
                     });
 
                     it("show targets if expander has 'true' cookie value", function () {
