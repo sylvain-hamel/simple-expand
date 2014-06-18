@@ -160,7 +160,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         // returns the cookie
         that.readCookie = function () {
             var jsonString = $.cookie(that.settings.cookieName);
-            if ( jsonString === null  || jsonString === '' ){
+            if ( jsonString === null  || jsonString === '' || jsonString === undefined ){
                 return {};
             }
             else{
